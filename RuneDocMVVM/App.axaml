@@ -1,0 +1,17 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="RuneDocMVVM.App"
+             xmlns:local="using:RuneDocMVVM"
+             xmlns:sty="using:FluentAvalonia.Styling"
+             RequestedThemeVariant="Dark">
+             <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
+
+    <Application.DataTemplates>
+        <local:ViewLocator/>
+    </Application.DataTemplates>
+  
+    <Application.Styles>
+        <sty:FluentAvaloniaTheme PreferUserAccentColor="True" PreferSystemTheme="True"></sty:FluentAvaloniaTheme>
+        <StyleInclude Source="avares://RuneDocMVVM/Assets/Icons.axaml"/>
+    </Application.Styles>
+</Application>

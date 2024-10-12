@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AvaloniaProject">
+    <option name="projectPerEditor">
+      <map>
+        <entry key="RuneDocMVVM/App.axaml" value="RuneDocMVVM/RuneDocMVVM.csproj" />
+        <entry key="RuneDocMVVM/Assets/Icons.axaml" value="RuneDocMVVM/RuneDocMVVM.csproj" />
+        <entry key="RuneDocMVVM/Views/DebugPageView.axaml" value="RuneDocMVVM/RuneDocMVVM.csproj" />
+        <entry key="RuneDocMVVM/Views/HomePageView.axaml" value="RuneDocMVVM/RuneDocMVVM.csproj" />
+        <entry key="RuneDocMVVM/Views/MainWindow.axaml" value="RuneDocMVVM/RuneDocMVVM.csproj" />
+      </map>
+    </option>
+  </component>
+</project>
