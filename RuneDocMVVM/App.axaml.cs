@@ -1,10 +1,12 @@
 using System;
 using System.Net.Sockets;
 using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data.Core;
 using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
+using Avalonia.VisualTree;
 using Microsoft.Extensions.DependencyInjection;
 using RuneDocMVVM.ViewModels;
 using RuneDocMVVM.Views;
@@ -64,5 +66,20 @@ public partial class App : Application
         }
 
         base.OnFrameworkInitializationCompleted();
+    }
+}
+
+public static class AppExtensions
+{
+    /// <summary>
+    /// Returns the TopLevel from the main window or view. 
+    /// </summary>
+    /// <param name="app">The application to get the TopLevel for.</param>
+    /// <returns>A TopLevel object.</returns>
+
+
+    public static void ImGay()
+    {
+        Console.WriteLine("asiodjaosid");
     }
 }

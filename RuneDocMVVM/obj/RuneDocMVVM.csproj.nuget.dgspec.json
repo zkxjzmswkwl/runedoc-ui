@@ -1,25 +1,31 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\BIGDADDY\\RiderProjects\\RuneDocMVVM\\RuneDocMVVM\\RuneDocMVVM.csproj": {}
+    "C:\\Users\\owcar\\personal\\RuneDocShit\\RuneDocMVVM\\RuneDocMVVM\\RuneDocMVVM.csproj": {}
   },
   "projects": {
-    "C:\\Users\\BIGDADDY\\RiderProjects\\RuneDocMVVM\\RuneDocMVVM\\RuneDocMVVM.csproj": {
+    "C:\\Users\\owcar\\personal\\RuneDocShit\\RuneDocMVVM\\RuneDocMVVM\\RuneDocMVVM.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\BIGDADDY\\RiderProjects\\RuneDocMVVM\\RuneDocMVVM\\RuneDocMVVM.csproj",
+        "projectUniqueName": "C:\\Users\\owcar\\personal\\RuneDocShit\\RuneDocMVVM\\RuneDocMVVM\\RuneDocMVVM.csproj",
         "projectName": "RuneDocMVVM",
-        "projectPath": "C:\\Users\\BIGDADDY\\RiderProjects\\RuneDocMVVM\\RuneDocMVVM\\RuneDocMVVM.csproj",
-        "packagesPath": "C:\\Users\\BIGDADDY\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\BIGDADDY\\RiderProjects\\RuneDocMVVM\\RuneDocMVVM\\obj\\",
+        "projectPath": "C:\\Users\\owcar\\personal\\RuneDocShit\\RuneDocMVVM\\RuneDocMVVM\\RuneDocMVVM.csproj",
+        "packagesPath": "C:\\Users\\owcar\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\owcar\\personal\\RuneDocShit\\RuneDocMVVM\\RuneDocMVVM\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\BIGDADDY\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\owcar\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -75,6 +81,10 @@
               "target": "Package",
               "version": "[9.0.0-rc.2.24473.5, )"
             },
+            "Microsoft.Windows.Compatibility": {
+              "target": "Package",
+              "version": "[9.0.0-rc.2.24474.4, )"
+            },
             "SuperSimpleTcp": {
               "target": "Package",
               "version": "[3.0.14, )"
@@ -96,7 +106,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.306/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

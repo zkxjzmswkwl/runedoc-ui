@@ -7,6 +7,8 @@
         x:Class="RuneDocMVVM.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/avalonia-logo.ico"
+        Width="1280"
+        Height="720"
         Title="RuneDocMVVM">
 
     <Design.DataContext>
@@ -28,7 +30,7 @@
             IsPaneOpen="{Binding IsPaneOpen}"
             OpenPaneLength="200"
             DisplayMode="CompactInline"
-            CompactPaneLength="46"
+            CompactPaneLength="58"
             Background="#1f2335"
             PaneBackground="#1f2335">
             

@@ -6,13 +6,82 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:DataType="vm:DebugPageViewModel"
              x:Class="RuneDocMVVM.Views.DebugPageView">
-    <StackPanel Margin="15, 15" Spacing="5">
-        <Label Content="Red"></Label>
-        <Slider Value="{Binding Red}" Minimum="1045353216" Maximum="1065353216" Width="125" HorizontalAlignment="Left"></Slider>
-        <Label Content="Green"></Label>
-        <Slider Value="{Binding Green}" Minimum="1045353216" Maximum="1065353216" Width="125" HorizontalAlignment="Left"></Slider>
-        <Label Content="Blue"></Label>
-        <Slider Value="{Binding Blue}" Minimum="1045353216" Maximum="1065353216" Width="125" HorizontalAlignment="Left"></Slider>
-        <Button Click="ApplySilhouetteColours">Apply</Button>
-    </StackPanel>
+
+    <Border>
+        <ScrollViewer>
+            <StackPanel Margin="15, 15" Spacing="5">
+                <Expander VerticalAlignment="Top">
+                    <Expander.Header>Silhouette</Expander.Header>
+                    <Grid RowDefinitions="*,*,*,*" ColumnDefinitions="120,*">
+                        <Label Grid.Row="0" Grid.Column="0" Content="Red"></Label>
+                        <Slider Grid.Row="0" Grid.Column="1" Value="{Binding Red}" Minimum="1045353216"
+                                Maximum="1065353216" Width="125" HorizontalAlignment="Left">
+                        </Slider>
+                        <Label Grid.Row="1" Grid.Column="0" Content="Green"></Label>
+                        <Slider Grid.Row="1" Grid.Column="1" Value="{Binding Green}" Minimum="1045353216"
+                                Maximum="1065353216" Width="125" HorizontalAlignment="Left">
+                        </Slider>
+                        <Label Grid.Row="2" Grid.Column="0" Content="Blue"></Label>
+                        <Slider Grid.Row="2" Grid.Column="1" Value="{Binding Blue}" Minimum="1045353216"
+                                Maximum="1065353216" Width="125" HorizontalAlignment="Left">
+                        </Slider>
+                        <Button Grid.Row="3" Grid.Column="0" Click="ApplySilhouetteColours">Apply</Button>
+                    </Grid>
+                </Expander>
+
+                <Expander VerticalAlignment="Top">
+                    <Expander.Header>Varbits</Expander.Header>
+                    <Grid RowDefinitions="*,*,*,*" ColumnDefinitions="120,*">
+                        <Button Margin="0,5" Click="RequestPrayer" Grid.Row="0">Prayer</Button>
+                        <Button Margin="0,5" Click="RequestHealth" Grid.Row="1">Health</Button>
+                    </Grid>
+                </Expander>
+
+                <Expander VerticalAlignment="Top">
+                    <Expander.Header>Entities</Expander.Header>
+                    <StackPanel>
+                        <TextBox Name="EntityNameSubstr" Watermark="Entity name substr"></TextBox>
+                        <Button Margin="0,5" Click="QueryScene" Grid.Row="0">Query</Button>
+
+                        <DataGrid ItemsSource="{Binding Entities}"
+                                  GridLinesVisibility="All"
+                                  Background="Transparent"
+                                  BorderThickness="1"
+                                  BorderBrush="Gray">
+
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Name" Binding="{Binding Name}" />
+                                <DataGridTextColumn Header="Combat Lv." Binding="{Binding CombatLevel}" />
+                                <DataGridTextColumn Header="Server Index" Binding="{Binding ServerIndex}" />
+                                <DataGridTextColumn Header="Address" Binding="{Binding Address, StringFormat={}{0:X}}" />
+                            </DataGrid.Columns>
+                            </DataGrid>
+                    </StackPanel>
+                </Expander>
+                
+                
+                <Expander VerticalAlignment="Top">
+                    <Expander.Header>Nodes</Expander.Header>
+                    <StackPanel>
+                        <TextBox Name="NodeNameSubstr" Watermark="Entity name substr"></TextBox>
+                        <Button Margin="0,5" Click="QuerySceneNodes" Grid.Row="0">Query</Button>
+
+                        <DataGrid ItemsSource="{Binding Nodes}"
+                                  GridLinesVisibility="All"
+                                  Background="Transparent"
+                                  BorderThickness="1"
+                                  BorderBrush="Gray">
+
+
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Name" Binding="{Binding Name}" />
+                                <DataGridTextColumn Header="Server Index" Binding="{Binding ServerIndex}" />
+                                <DataGridTextColumn Header="Address" Binding="{Binding Address, StringFormat={}{0:X}}" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </StackPanel>
+                </Expander>
+            </StackPanel>
+        </ScrollViewer>
+    </Border>
 </UserControl>

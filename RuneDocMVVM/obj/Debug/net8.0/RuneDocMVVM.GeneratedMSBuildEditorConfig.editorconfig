@@ -15,21 +15,24 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = RuneDocMVVM
-build_property.ProjectDir = C:\Users\BIGDADDY\RiderProjects\RuneDocMVVM\RuneDocMVVM\
+build_property.ProjectDir = C:\Users\owcar\personal\RuneDocShit\RuneDocMVVM\RuneDocMVVM\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 
-[C:/Users/BIGDADDY/RiderProjects/RuneDocMVVM/RuneDocMVVM/App.axaml]
+[C:/Users/owcar/personal/RuneDocShit/RuneDocMVVM/RuneDocMVVM/App.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
-[C:/Users/BIGDADDY/RiderProjects/RuneDocMVVM/RuneDocMVVM/Assets/Icons.axaml]
+[C:/Users/owcar/personal/RuneDocShit/RuneDocMVVM/RuneDocMVVM/Assets/Icons.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
-[C:/Users/BIGDADDY/RiderProjects/RuneDocMVVM/RuneDocMVVM/Views/DebugPageView.axaml]
+[C:/Users/owcar/personal/RuneDocShit/RuneDocMVVM/RuneDocMVVM/Views/DebugPageView.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
-[C:/Users/BIGDADDY/RiderProjects/RuneDocMVVM/RuneDocMVVM/Views/HomePageView.axaml]
+[C:/Users/owcar/personal/RuneDocShit/RuneDocMVVM/RuneDocMVVM/Views/HomePageView.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
-[C:/Users/BIGDADDY/RiderProjects/RuneDocMVVM/RuneDocMVVM/Views/MainWindow.axaml]
+[C:/Users/owcar/personal/RuneDocShit/RuneDocMVVM/RuneDocMVVM/Views/MainWindow.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
+[C:/Users/owcar/personal/RuneDocShit/RuneDocMVVM/RuneDocMVVM/Views/TrackerPageView.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml

@@ -11,11 +11,10 @@ public class Client
     public Client()
     {
         Console.WriteLine("Client ctor");
-        simpleTcpClient = new SimpleTcpClient("127.0.0.1:6968");
+        simpleTcpClient = new SimpleTcpClient("127.0.0.1:6969");
 
         simpleTcpClient.Events.Connected += OnConnect;
         simpleTcpClient.Events.Disconnected += OnDisconnect;
-        // simpleTcpClient.Events.DataReceived += DataReceived;
     }
 
     public void Connect()

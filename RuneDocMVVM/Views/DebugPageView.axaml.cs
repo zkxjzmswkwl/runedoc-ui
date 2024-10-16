@@ -1,4 +1,6 @@
-﻿using Avalonia;
+﻿using System;
+using System.Runtime.InteropServices;
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
@@ -12,7 +14,6 @@ public partial class DebugPageView : UserControl
     public DebugPageView()
     {
         InitializeComponent();
-        DataContext = new DebugPageViewModel();
     }
 
     private void ApplySilhouetteColours(object? sender, RoutedEventArgs e)
@@ -24,4 +25,37 @@ public partial class DebugPageView : UserControl
         client.SendData($"cmd:green:{(long)vm.Green}");
         client.SendData($"cmd:blue:{(long)vm.Blue}");
     }
+
+    private void RequestPrayer(object? sender, RoutedEventArgs e)
+    {
+        var client = App.Provider.GetService<Client>();
+        client.SendData("req:prayer");
+    }
+
+    private void RequestHealth(object? sender, RoutedEventArgs e)
+    {
+        var client = App.Provider.GetService<Client>();
+        client.SendData("req:health");
+    }
+
+    private void QueryScene(object? sender, RoutedEventArgs e)
+    {
+        var client = App.Provider.GetService<Client>();
+        client.SendData($"req:sceneobjects:{EntityNameSubstr.Text}");
+    }
+    
+    private void QuerySceneNodes(object? sender, RoutedEventArgs e)
+    {
+        var client = App.Provider.GetService<Client>();
+        client.SendData($"req:nodes:{NodeNameSubstr.Text}");
+    }
+
+    [DllImport("user32.dll")]
+    internal static extern bool OpenClipboard(IntPtr hWndNewOwner);
+
+    [DllImport("user32.dll")]
+    internal static extern bool CloseClipboard();
+
+    [DllImport("user32.dll")]
+    internal static extern bool SetClipboardData(uint uFormat, IntPtr data); 
 }

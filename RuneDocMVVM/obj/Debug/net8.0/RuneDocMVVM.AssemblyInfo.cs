@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("RuneDocMVVM")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+bcf7d84a1b4a8d114dd399305dbd9e754e3506a2")]
 [assembly: System.Reflection.AssemblyProductAttribute("RuneDocMVVM")]
 [assembly: System.Reflection.AssemblyTitleAttribute("RuneDocMVVM")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
