@@ -48,6 +48,19 @@ public partial class DebugPageView : UserControl
     {
         var client = App.Provider.GetService<Client>();
         client.SendData($"req:nodes:{NodeNameSubstr.Text}");
+        HidePlayersButton.Content = (string)HidePlayersButton.Content == "Unhide Players" ? "Hide Players" : "Unhide Players";
+    }
+    private void HideNpcs(object? sender, RoutedEventArgs e)
+    {
+        var client = App.Provider.GetService<Client>();
+        client.SendData("req:hideentities:npc");
+        HideNpcsButton.Content = (string)HideNpcsButton.Content! == "Unhide Npcs" ? "Hide Npcs" : "Unhide Npcs";
+    }
+    private void HidePlayers(object? sender, RoutedEventArgs e)
+    {
+        var client = App.Provider.GetService<Client>();
+        client.SendData("req:hideentities:entity");
+        HidePlayersButton.Content = "Unhide Players";
     }
 
     [DllImport("user32.dll")]
@@ -57,5 +70,8 @@ public partial class DebugPageView : UserControl
     internal static extern bool CloseClipboard();
 
     [DllImport("user32.dll")]
-    internal static extern bool SetClipboardData(uint uFormat, IntPtr data); 
+    internal static extern bool SetClipboardData(uint uFormat, IntPtr data);
+
+
+
 }

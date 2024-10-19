@@ -42,6 +42,10 @@
                     <StackPanel>
                         <TextBox Name="EntityNameSubstr" Watermark="Entity name substr"></TextBox>
                         <Button Margin="0,5" Click="QueryScene" Grid.Row="0">Query</Button>
+                        <StackPanel Orientation="Horizontal" Spacing="5">
+                            <Button Name="HidePlayersButton" Margin="0, 5" Click="HidePlayers" Grid.Row="1">Hide Players</Button>
+                            <Button Name="HideNpcsButton" Margin="0, 5" Click="HideNpcs" Grid.Row="2" Grid.Column="1">Hide Npcs</Button>
+                        </StackPanel>
 
                         <DataGrid ItemsSource="{Binding Entities}"
                                   GridLinesVisibility="All"
@@ -75,6 +79,7 @@
 
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Name" Binding="{Binding Name}" />
+                                <DataGridTextColumn Header="Distance" Binding="{Binding Distance}" />
                                 <DataGridTextColumn Header="Server Index" Binding="{Binding ServerIndex}" />
                                 <DataGridTextColumn Header="Address" Binding="{Binding Address, StringFormat={}{0:X}}" />
                             </DataGrid.Columns>
