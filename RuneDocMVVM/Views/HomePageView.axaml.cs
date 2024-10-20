@@ -1,4 +1,6 @@
-﻿using System.Threading;
+﻿using System;
+using System.Linq;
+using System.Threading;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
@@ -19,6 +21,8 @@ public partial class HomePageView : UserControl
         var client = App.Provider.GetService<Client>();
         if (!client.Connected)
         {
+            var rs2Clients = Inject.GetAllClients();
+            Inject.MapModule(rs2Clients.First());
             client.Connect();
         }
     }
