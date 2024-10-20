@@ -48,7 +48,6 @@ public partial class DebugPageView : UserControl
     {
         var client = App.Provider.GetService<Client>();
         client.SendData($"req:nodes:{NodeNameSubstr.Text}");
-        HidePlayersButton.Content = (string)HidePlayersButton.Content == "Unhide Players" ? "Hide Players" : "Unhide Players";
     }
     private void HideNpcs(object? sender, RoutedEventArgs e)
     {
@@ -60,7 +59,7 @@ public partial class DebugPageView : UserControl
     {
         var client = App.Provider.GetService<Client>();
         client.SendData("req:hideentities:entity");
-        HidePlayersButton.Content = "Unhide Players";
+        HidePlayersButton.Content = (string)HidePlayersButton.Content == "Unhide Players" ? "Hide Players" : "Unhide Players";
     }
 
     [DllImport("user32.dll")]
