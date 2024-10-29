@@ -41,7 +41,7 @@ public partial class DebugPageViewModel : ViewModelBase
             OnPropertyChanged();
         }
     }
-    
+
     public void AddEntitiesThreadSafe(List<Entity> entities)
     {
         Dispatcher.UIThread.InvokeAsync(() =>
@@ -53,8 +53,7 @@ public partial class DebugPageViewModel : ViewModelBase
             }
         });
     }
-    
-    
+
     public void AddNodesThreadSafe(List<Node> nodes)
     {
         Dispatcher.UIThread.InvokeAsync(() =>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using System.Threading.Tasks;
 using SuperSimpleTcp;
 
 namespace RuneDocMVVM;
@@ -12,6 +13,9 @@ public class Client
     {
         Console.WriteLine("Client ctor");
         simpleTcpClient = new SimpleTcpClient("127.0.0.1:6969");
+        var settings = new SimpleTcpClientSettings();
+        settings.NoDelay = true;
+        simpleTcpClient.Settings = settings;
 
         simpleTcpClient.Events.Connected += OnConnect;
         simpleTcpClient.Events.Disconnected += OnDisconnect;
@@ -19,7 +23,8 @@ public class Client
 
     public void Connect()
     {
-        simpleTcpClient.Connect();
+        simpleTcpClient.ConnectWithRetries(2000);
+        simpleTcpClient.Send("req:rsn<dongs>");
     }
 
     public bool Connected
@@ -29,7 +34,7 @@ public class Client
 
     public void SendData(string data)
     {
-        simpleTcpClient.Send($"{data}<dongs>");
+        simpleTcpClient.SendAsync($"{data}<dongs>");
     }
     
     public void Disconnect()

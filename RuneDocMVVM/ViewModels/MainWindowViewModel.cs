@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Text;
 using Avalonia;
 using Avalonia.Controls;
@@ -31,14 +32,24 @@ public partial class MainWindowViewModel : ViewModelBase
 
     [ObservableProperty]
     private ListItemTemplate _selectedListItem;
+    
+    private readonly Dictionary<Type, ViewModelBase> _pageInstances;
 
     private bool _recvOpeningMessage = false;
 
     public MainWindowViewModel()
     {
+        _pageInstances = new Dictionary<Type, ViewModelBase>
+        {
+            { typeof(HomePageViewModel), new HomePageViewModel() },
+            { typeof(DebugPageViewModel), App.Provider.GetService<DebugPageViewModel>()! },
+            { typeof(TrackerPageViewModel), App.Provider.GetService<TrackerPageViewModel>()! },
+            { typeof(WardenPageViewModel), App.Provider.GetService<WardenPageViewModel>()! }
+        };
         App.Provider.GetService<Client>()!.simpleTcpClient.Events.DataReceived += DataReceived;
     }
 
+    // Giga shit. Don't care.
     private void DataReceived(object? sender, DataReceivedEventArgs e)
     {
         var packet = Encoding.UTF8.GetString(e.Data.Array, 0, e.Data.Count);
@@ -47,7 +58,6 @@ public partial class MainWindowViewModel : ViewModelBase
         if (!_recvOpeningMessage)
         {
             _recvOpeningMessage = true;
-            App.Provider.GetService<Client>()!.SendData("req:rsn");
         }
 
         if (packet.StartsWith("resp:"))
@@ -108,37 +118,55 @@ public partial class MainWindowViewModel : ViewModelBase
                     break;
             }
         }
+        
+        if (packet.StartsWith("_specpl_"))
+        {
+            var spl = packet.Split(":");
+            if (spl[1] == "afkwarden")
+            {
+                 if (spl[2] == "playalert")
+                 {
+                     var audioPlayer = App.Provider.GetService<AudioPlayer>()!;
+                     audioPlayer.Play("fbalert.mp3");
+                 }
+                 else if (spl[2] == "queryresp")
+                 {
+                     var messages = Regex.Split(spl[3], "\\^")[0..^1];
+                     List<WatchedMessage> messageList = [];
+                     
+                     foreach (var message in messages)
+                     {
+                         messageList.Add(WatchedMessage.Create(message));
+                     }
+                     
+                     var vm = App.Provider.GetService<WardenPageViewModel>()!;
+                     vm.AddMessagesThreadSafe(messageList);
+                 }
+            }
+        }
     }
 
     partial void OnSelectedListItemChanged(ListItemTemplate? value)
     {
         if (value is null) return;
-        
-        var debugVm = App.Provider.GetService<DebugPageViewModel>()!;
-        // This is giga retarded
-        if (value.ModelType != typeof(DebugPageViewModel) && value.ModelType != typeof(TrackerPageViewModel))
-        {
-             var instance = Activator.CreateInstance(value.ModelType);
-             if (instance is null) return;           
-            CurrentPage = (ViewModelBase)instance;
-            return;
-        }
 
-        if (value.ModelType == typeof(DebugPageViewModel))
+        if (_pageInstances.TryGetValue(value.ModelType, out var instance))
         {
-            CurrentPage = (ViewModelBase)debugVm;
-            return;
+            CurrentPage = instance;
         }
-        
-        // incredibly retarded.
-        CurrentPage = (ViewModelBase)App.Provider.GetService<TrackerPageViewModel>()!;
+        else
+        {
+            var newInstance = (ViewModelBase)Activator.CreateInstance(value.ModelType)!;
+            _pageInstances[value.ModelType] = newInstance;
+            CurrentPage = newInstance;
+        }
     }
-    
     public ObservableCollection<ListItemTemplate> Items { get; } = new()
     {
         new ListItemTemplate(typeof(HomePageViewModel), "Home"),
         new ListItemTemplate(typeof(DebugPageViewModel), "Bug"),
-        new ListItemTemplate(typeof(TrackerPageViewModel), "DataBar")
+        new ListItemTemplate(typeof(TrackerPageViewModel), "DataBar"),
+        new ListItemTemplate(typeof(WardenPageViewModel), "Keyboard")
     };
 
     [RelayCommand]

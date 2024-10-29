@@ -4,6 +4,12 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="RuneDocMVVM.Views.HomePageView">
+    <UserControl.Styles>
+        <!-- Define a fade-in animation -->
+        <Style Selector="Image#BackgroundImage">
+            <Setter Property="Opacity" Value="100"/>
+        </Style>
+    </UserControl.Styles>
     
     <StackPanel Margin="15, 15" Orientation="Horizontal" Spacing="10" VerticalAlignment="Top">
         <Button Click="Connect" ToolTip.Placement="Bottom">

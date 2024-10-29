@@ -26,7 +26,7 @@ public partial class TrackerPageView : UserControl
          {
              ShouldUpdateTrackers = false;
              TrackerThread.Join();
-         }           
+         }
     }
 
     private void GetTrackers(object? sender, RoutedEventArgs e)

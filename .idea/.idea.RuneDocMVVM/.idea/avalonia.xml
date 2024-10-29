@@ -9,6 +9,7 @@
         <entry key="RuneDocMVVM/Views/HomePageView.axaml" value="RuneDocMVVM/RuneDocMVVM.csproj" />
         <entry key="RuneDocMVVM/Views/MainWindow.axaml" value="RuneDocMVVM/RuneDocMVVM.csproj" />
         <entry key="RuneDocMVVM/Views/TrackerPageView.axaml" value="RuneDocMVVM/RuneDocMVVM.csproj" />
+        <entry key="RuneDocMVVM/Views/WardenPageView.axaml" value="RuneDocMVVM/RuneDocMVVM.csproj" />
       </map>
     </option>
   </component>

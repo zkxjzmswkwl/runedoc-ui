@@ -25,6 +25,14 @@
         <PackageReference Include="FluentAvaloniaUI" Version="2.1.0" />
         <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.0-rc.2.24473.5" />
         <PackageReference Include="Microsoft.Windows.Compatibility" Version="9.0.0-rc.2.24474.4" />
+        <PackageReference Include="NAudio" Version="2.2.1" />
         <PackageReference Include="SuperSimpleTcp" Version="3.0.14" />
     </ItemGroup>
+    
+    <PropertyGroup>
+        <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+        <PublishSingleFile>true</PublishSingleFile>
+        <SelfContained>true</SelfContained>
+        <PublishTrimmed>false</PublishTrimmed>
+    </PropertyGroup>
 </Project>
