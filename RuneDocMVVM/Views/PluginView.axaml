@@ -1,0 +1,10 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="RuneDocMVVM.Views.PluginView"
+             xmlns:models="clr-namespace:RuneDocMVVM.Models"
+             x:DataType="models:PluginModel">
+    <StackPanel>
+        <TextBlock Text="{Binding PluginName}" FontWeight="Bold" FontSize="16" />
+        <ContentControl Name="PluginContent" />
+    </StackPanel>
+</UserControl>

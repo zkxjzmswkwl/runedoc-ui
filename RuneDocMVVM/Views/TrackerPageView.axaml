@@ -39,5 +39,6 @@
         <!--               Minimum="0" Maximum="100" Value="92" -->
         <!--               Foreground="Red" -->
         <!--               ShowProgressText="True"/> -->
+
     </StackPanel>
 </UserControl>

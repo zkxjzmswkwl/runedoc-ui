@@ -1,11 +1,14 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.VisualTree;
+using DialogHostAvalonia;
 using Microsoft.Extensions.DependencyInjection;
 
 using RuneDocMVVM;
@@ -54,27 +57,36 @@ public partial class WardenPageView : UserControl
         }));
         WardenThread.Start();
     }
-
     
-    private void OnListBoxPointerPressed(object? sender, PointerPressedEventArgs e)
+    private async void OnListBoxPointerPressed(object? sender, PointerPressedEventArgs e)
     {
-        // Check if it's a middle mouse button click
-        if (e.GetCurrentPoint(this).Properties.PointerUpdateKind == PointerUpdateKind.MiddleButtonPressed)
-        {
-            // Find the clicked ListBoxItem by traversing the visual tree
-            var listBoxItem = (e.Source as Control)?.FindAncestorOfType<ListBoxItem>();
-            if (listBoxItem != null)
-            {
-                // Get the item associated with this ListBoxItem by finding its index
-                int index = MessageListing.ItemContainerGenerator.IndexFromContainer(listBoxItem);
-                if (index >= 0 && index < MessageListing.ItemCount)
-                {
-                    var item = MessageListing.Items.ElementAt(index);
+        if (sender is not TextBlock textBlock) return;
+        var listBoxItem = textBlock.FindAncestorOfType<ListBoxItem>();
+        if (listBoxItem == null) return;
+        var index = MessageListing.ItemContainerGenerator.IndexFromContainer(listBoxItem);
+        if (index < 0 || index >= MessageListing.ItemCount) return;
+        var item = MessageListing.Items.ElementAt(index);
 
-                    // Handle the middle-click on this item
-                    HandleMiddleClickOnItem(item);
-                }
-            }
+        var point = e.GetCurrentPoint(textBlock);
+
+        if (point.Properties.IsMiddleButtonPressed)
+        {
+            HandleMiddleClickOnItem(item);
+        }
+        else if (point.Properties.IsRightButtonPressed)
+        {
+            HandleRightClickOnItem(item);
+        }
+    }
+
+    private void  HandleRightClickOnItem(object? item)
+    {
+        if (item != null)
+        {
+            var message = (WatchedMessage)item;
+            App.Provider.GetService<WardenPageViewModel>()!.DialogSubject = message;
+            WardenDialogHost.IsOpen = true;
+            Console.WriteLine(message.Message);
         }
     }
     
@@ -92,5 +104,41 @@ public partial class WardenPageView : UserControl
         var client = App.Provider.GetService<Client>()!;
         client.SendData($"_specpl_:afkwarden:addWatchedMessage:{AddNewMessage.Text}");
         AddNewMessage.Text = "";
+    }
+
+    private void Warden_OnDialogClosing(object? sender, DialogClosingEventArgs e)
+    {
+        Console.WriteLine(sender);
+        var selectedItem = (ComboBoxItem)e.Parameter!;
+        if (selectedItem.Content == null) return;
+        var vm = App.Provider.GetService<WardenPageViewModel>()!;
+
+        bool isTts = selectedItem.Content.Equals("Text to speech");
+        string ttsString = "boner";
+        
+        foreach (var msg in vm.WardenList)
+        {
+            if (msg.Message.Equals(vm.DialogSubject.Message))
+            {
+                msg.TextToSpeech = isTts;
+                msg.TextToSpeechMessage = ttsString;
+            }
+        }
+
+        Console.WriteLine($"Closing dialog with parameter: {selectedItem.Content}");
+    }
+    
+    private void ComboBox_SelectionChanged(object? sender, SelectionChangedEventArgs e)
+    {
+        if (sender is ComboBox comboBox)
+        {
+            var selectedItem = comboBox.SelectedItem;
+            Console.WriteLine(selectedItem);
+        }
+    }
+
+    private void OnTap(object? sender, TappedEventArgs e)
+    {
+        Console.WriteLine(e);
     }
 }

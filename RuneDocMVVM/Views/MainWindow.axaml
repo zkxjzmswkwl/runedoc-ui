@@ -14,9 +14,8 @@
     <Design.DataContext>
         <vm:MainWindowViewModel/>
     </Design.DataContext>
-
+    
     <Grid RowDefinitions="Auto, *">
-        <!-- Title Bar -->
         <Border Grid.Row="0" Height="32">
             <Border.Background>
                 <ImageBrush Source="avares://RuneDocMVVM/Assets/boxtop.jpg"

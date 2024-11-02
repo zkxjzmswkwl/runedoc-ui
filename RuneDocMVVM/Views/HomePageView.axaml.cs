@@ -22,7 +22,7 @@ public partial class HomePageView : UserControl
         if (!client.Connected)
         {
             var rs2Clients = Inject.GetAllClients();
-            Inject.MapModule(rs2Clients.First());
+            // Inject.MapModule(rs2Clients.First());
             client.Connect();
         }
     }

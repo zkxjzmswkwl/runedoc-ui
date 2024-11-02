@@ -5,10 +5,12 @@
 public class WatchedMessage
 {
     public string Message { get; set; }
+    public bool TextToSpeech { get; set; }
+    public string TextToSpeechMessage { get; set; }
 
     public static WatchedMessage Create(string message)
     {
-        WatchedMessage watchedMessage = new WatchedMessage { Message = message };
+        WatchedMessage watchedMessage = new WatchedMessage { Message = message, TextToSpeech = false};
         return watchedMessage;
     }
 }

@@ -3,9 +3,11 @@
              x:Class="RuneDocMVVM.App"
              xmlns:local="using:RuneDocMVVM"
              xmlns:sty="using:FluentAvalonia.Styling"
-             RequestedThemeVariant="Dark">
-             <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
-
+             RequestedThemeVariant="Dark"
+             xmlns:dialogHostAvalonia="clr-namespace:DialogHostAvalonia;assembly=DialogHost.Avalonia"
+             xmlns:views="clr-namespace:RuneDocMVVM.Views"
+             xmlns:viewmodels="clr-namespace:RuneDocMVVM.ViewModels"
+             >
     <Application.DataTemplates>
         <local:ViewLocator/>
     </Application.DataTemplates>
@@ -13,5 +15,8 @@
     <Application.Styles>
         <sty:FluentAvaloniaTheme PreferUserAccentColor="True" PreferSystemTheme="True"></sty:FluentAvaloniaTheme>
         <StyleInclude Source="avares://RuneDocMVVM/Assets/Icons.axaml"/>
+        <dialogHostAvalonia:DialogHostStyles />
     </Application.Styles>
+             
+
 </Application>

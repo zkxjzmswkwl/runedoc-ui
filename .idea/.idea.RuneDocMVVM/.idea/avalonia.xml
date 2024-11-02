@@ -8,6 +8,9 @@
         <entry key="RuneDocMVVM/Views/DebugPageView.axaml" value="RuneDocMVVM/RuneDocMVVM.csproj" />
         <entry key="RuneDocMVVM/Views/HomePageView.axaml" value="RuneDocMVVM/RuneDocMVVM.csproj" />
         <entry key="RuneDocMVVM/Views/MainWindow.axaml" value="RuneDocMVVM/RuneDocMVVM.csproj" />
+        <entry key="RuneDocMVVM/Views/PluginHostControl.axaml" value="RuneDocMVVM/RuneDocMVVM.csproj" />
+        <entry key="RuneDocMVVM/Views/PluginPageView.axaml" value="RuneDocMVVM/RuneDocMVVM.csproj" />
+        <entry key="RuneDocMVVM/Views/PluginView.axaml" value="RuneDocMVVM/RuneDocMVVM.csproj" />
         <entry key="RuneDocMVVM/Views/TrackerPageView.axaml" value="RuneDocMVVM/RuneDocMVVM.csproj" />
         <entry key="RuneDocMVVM/Views/WardenPageView.axaml" value="RuneDocMVVM/RuneDocMVVM.csproj" />
       </map>

@@ -12,7 +12,10 @@ using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.DependencyInjection;
 using SuperSimpleTcp;
 using System.Text.RegularExpressions;
+using Avalonia.Threading;
 using RuneDocMVVM.CommunicationTypes;
+using RuneDocMVVM.Models;
+using RuneDocMVVM.Views;
 
 namespace RuneDocMVVM.ViewModels;
 
@@ -44,9 +47,52 @@ public partial class MainWindowViewModel : ViewModelBase
             { typeof(HomePageViewModel), new HomePageViewModel() },
             { typeof(DebugPageViewModel), App.Provider.GetService<DebugPageViewModel>()! },
             { typeof(TrackerPageViewModel), App.Provider.GetService<TrackerPageViewModel>()! },
-            { typeof(WardenPageViewModel), App.Provider.GetService<WardenPageViewModel>()! }
+            { typeof(WardenPageViewModel), App.Provider.GetService<WardenPageViewModel>()! },
+            { typeof(PluginHostViewModel), App.Provider.GetService<PluginHostViewModel>()! }
         };
         App.Provider.GetService<Client>()!.simpleTcpClient.Events.DataReceived += DataReceived;
+        
+        Dispatcher.UIThread.Post(() =>
+        {
+            string str = @"
+                {
+                  ""PluginName"": ""SamplePlugin"",
+                  ""Version"": ""1.0"",
+                  ""Ui"": {
+                    ""layout"": ""StackPanel"",
+                    ""orientation"": ""Vertical"",
+                    ""children"": [
+                      {
+                        ""type"": ""TextBlock"",
+                        ""properties"": {
+                          ""Text"": ""Welcome to Sample Plugin"",
+                          ""FontSize"": 20,
+                          ""Foreground"": ""#FF0000""
+                        }
+                      },
+                      {
+                        ""type"": ""Button"",
+                        ""properties"": {
+                          ""Content"": ""Click Me"",
+                          ""Command"": ""SampleCommand"",
+                          ""Background"": ""Green""
+                        }
+                      },
+                      {
+                        ""type"": ""ProgressBar"",
+                        ""properties"": {
+                          ""Minimum"": 0,
+                          ""Maximum"": 100,
+                          ""Value"": 50
+                        }
+                      }
+                    ]
+                  }
+                }
+            ";
+            var plugin = PluginModel.FromJson(str);
+            App.Provider.GetService<PluginHostViewModel>()!.AddPlugin(plugin);
+        });
     }
 
     // Giga shit. Don't care.
@@ -126,8 +172,26 @@ public partial class MainWindowViewModel : ViewModelBase
             {
                  if (spl[2] == "playalert")
                  {
-                     var audioPlayer = App.Provider.GetService<AudioPlayer>()!;
-                     audioPlayer.Play("fbalert.mp3");
+                     var wardenList = App.Provider.GetService<WardenPageViewModel>()!.WardenList;
+                     WatchedMessage alertMessage = null;
+                     foreach (var msg in wardenList)
+                     {
+                         if (msg.Message.Equals(spl[3]))
+                         {
+                             alertMessage = msg;
+                         }
+                     }
+
+                     if (alertMessage is { TextToSpeech: true })
+                     {
+                         Speech.Say(alertMessage.TextToSpeechMessage);
+                     }
+                     else
+                     {
+                          var audioPlayer = App.Provider.GetService<AudioPlayer>()!;
+                          audioPlayer.Play("fbalert.mp3");                        
+                     }
+
                  }
                  else if (spl[2] == "queryresp")
                  {
@@ -166,7 +230,8 @@ public partial class MainWindowViewModel : ViewModelBase
         new ListItemTemplate(typeof(HomePageViewModel), "Home"),
         new ListItemTemplate(typeof(DebugPageViewModel), "Bug"),
         new ListItemTemplate(typeof(TrackerPageViewModel), "DataBar"),
-        new ListItemTemplate(typeof(WardenPageViewModel), "Keyboard")
+        new ListItemTemplate(typeof(WardenPageViewModel), "Keyboard"),
+        new ListItemTemplate(typeof(PluginHostViewModel), "Keyboard")
     };
 
     [RelayCommand]

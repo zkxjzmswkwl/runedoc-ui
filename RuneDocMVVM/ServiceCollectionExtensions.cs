@@ -13,5 +13,6 @@ public static class ServiceCollectionExtensions {
         collection.AddSingleton<WardenPageViewModel>();
         collection.AddSingleton<Client>();
         collection.AddSingleton<AudioPlayer>();
+        collection.AddSingleton<PluginHostViewModel>();
     }
 }

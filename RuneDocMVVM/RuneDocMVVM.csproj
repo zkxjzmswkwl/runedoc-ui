@@ -10,7 +10,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Folder Include="Models\"/>
         <AvaloniaResource Include="Assets\**"/>
     </ItemGroup>
 
@@ -28,6 +27,16 @@
         <PackageReference Include="Microsoft.Windows.Compatibility" Version="9.0.0-rc.2.24474.4" />
         <PackageReference Include="NAudio" Version="2.2.1" />
         <PackageReference Include="SuperSimpleTcp" Version="3.0.14" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Plugins\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="Views\PluginView.cs">
+        <DependentUpon>PluginView.axaml</DependentUpon>
+      </Compile>
     </ItemGroup>
     
     <PropertyGroup Condition="'$(Configuration)' != 'Debug'">
