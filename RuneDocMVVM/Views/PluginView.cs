@@ -7,6 +7,7 @@ using System.Text.Json;
 using Avalonia.Layout;
 using Avalonia.Media;
 using Avalonia.Threading;
+using CommunityToolkit.Mvvm.Input;
 
 namespace RuneDocMVVM.Views
 {
@@ -170,69 +171,79 @@ namespace RuneDocMVVM.Views
 
         private void SetControlProperty(Control control, string propertyName, JsonElement value)
         {
-            var propInfo = control.GetType().GetProperty(propertyName);
-            if (propInfo != null && propInfo.CanWrite)
-            {
-                try
-                {
-                    object convertedValue = null;
-                    if (propInfo.PropertyType == typeof(string))
-                    {
-                        convertedValue = value.GetString();
-                    }
-                    else if (propInfo.PropertyType == typeof(int))
-                    {
-                        if (value.TryGetInt32(out int intValue))
-                        {
-                            convertedValue = intValue;
-                        }
-                    }
-                    else if (propInfo.PropertyType == typeof(double))
-                    {
-                        if (value.TryGetDouble(out double doubleValue))
-                        {
-                            convertedValue = doubleValue;
-                        }
-                    }
-                    else if (propInfo.PropertyType == typeof(bool))
-                    {
-                        if (value.ValueKind == JsonValueKind.True || value.ValueKind == JsonValueKind.False)
-                        {
-                            convertedValue = value.GetBoolean();
-                        }
-                    }
-                    else if (propInfo.PropertyType.IsEnum)
-                    {
-                        string enumValue = value.GetString();
-                        convertedValue = Enum.Parse(propInfo.PropertyType, enumValue);
-                    }
-                    else if (propInfo.PropertyType == typeof(IBrush))
-                    {
-                        string colorStr = value.GetString();
-                        convertedValue = new SolidColorBrush(Color.Parse(colorStr));
-                    }
-                    else
-                    {
-                        convertedValue = Convert.ChangeType(value.ToString(), propInfo.PropertyType);
-                    }
-
-                    propInfo.SetValue(control, convertedValue);
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(
-                        $"Error setting property '{propertyName}' on {control.GetType().Name}: {ex.Message}");
-                }
-            }
-            else if (propertyName == "Command" && value.ValueKind == JsonValueKind.String)
+            if (propertyName == "Command" && value.ValueKind == JsonValueKind.String)
             {
                 string commandName = value.GetString();
                 if (control is Button button)
                 {
-                    button.Click += (sender, e) => ExecuteCommand(commandName);
+                    button.Command = new RelayCommand(() => ExecuteCommand(commandName));
+                }
+            }
+            else
+            {
+                var propInfo = control.GetType().GetProperty(propertyName);
+
+                if (propInfo != null && propInfo.CanWrite)
+                {
+                    try
+                    {
+                        object convertedValue = null;
+
+                        // Handle different property types
+                        if (propInfo.PropertyType == typeof(string))
+                        {
+                            convertedValue = value.GetString();
+                        }
+                        else if (propInfo.PropertyType == typeof(int))
+                        {
+                            if (value.TryGetInt32(out int intValue))
+                            {
+                                convertedValue = intValue;
+                            }
+                        }
+                        else if (propInfo.PropertyType == typeof(double))
+                        {
+                            if (value.TryGetDouble(out double doubleValue))
+                            {
+                                convertedValue = doubleValue;
+                            }
+                        }
+                        else if (propInfo.PropertyType == typeof(bool))
+                        {
+                            if (value.ValueKind == JsonValueKind.True || value.ValueKind == JsonValueKind.False)
+                            {
+                                convertedValue = value.GetBoolean();
+                            }
+                        }
+                        else if (propInfo.PropertyType.IsEnum)
+                        {
+                            string enumValue = value.GetString();
+                            convertedValue = Enum.Parse(propInfo.PropertyType, enumValue);
+                        }
+                        else if (propInfo.PropertyType == typeof(IBrush))
+                        {
+                            string colorStr = value.GetString();
+                            convertedValue = new SolidColorBrush(Color.Parse(colorStr));
+                        }
+                        else
+                        {
+                            convertedValue = Convert.ChangeType(value.ToString(), propInfo.PropertyType);
+                        }
+
+                        propInfo.SetValue(control, convertedValue);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"Error setting property '{propertyName}' on {control.GetType().Name}: {ex.Message}");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine($"Property '{propertyName}' not found on control of type '{control.GetType().Name}'.");
                 }
             }
         }
+
 
         private void ExecuteCommand(string commandName)
         {

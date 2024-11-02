@@ -65,17 +65,15 @@ public partial class MainWindowViewModel : ViewModelBase
                       {
                         ""type"": ""TextBlock"",
                         ""properties"": {
-                          ""Text"": ""Welcome to Sample Plugin"",
-                          ""FontSize"": 20,
-                          ""Foreground"": ""#FF0000""
+                          ""Text"": ""Demo"",
+                          ""FontSize"": 20
                         }
                       },
                       {
                         ""type"": ""Button"",
                         ""properties"": {
-                          ""Content"": ""Click Me"",
-                          ""Command"": ""SampleCommand"",
-                          ""Background"": ""Green""
+                          ""Content"": ""Dongs"",
+                          ""Command"": ""SampleCommand""
                         }
                       },
                       {

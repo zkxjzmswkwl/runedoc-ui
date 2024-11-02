@@ -13,7 +13,5 @@ namespace RuneDocMVVM.ViewModels
         {
             Plugins.Add(plugin);
         }
-
-        // Additional methods to manage plugins can be added here
     }
 }
