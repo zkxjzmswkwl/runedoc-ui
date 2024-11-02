@@ -81,22 +81,17 @@ public partial class WardenPageView : UserControl
 
     private void  HandleRightClickOnItem(object? item)
     {
-        if (item != null)
-        {
-            var message = (WatchedMessage)item;
-            App.Provider.GetService<WardenPageViewModel>()!.DialogSubject = message;
-            WardenDialogHost.IsOpen = true;
-            Console.WriteLine(message.Message);
-        }
+        if (item == null) return;
+        var message = (WatchedMessage)item;
+        App.Provider.GetService<WardenPageViewModel>()!.DialogSubject = message;
+        WardenDialogHost.IsOpen = true;
     }
     
     private void HandleMiddleClickOnItem(object? item)
     {
-        if (item != null)
-        {
-            var message = (WatchedMessage)item;
-            App.Provider.GetService<Client>()!.SendData($"_specpl_:afkwarden:removeWatchedMessage:{message.Message}");
-        }
+        if (item == null) return;
+        var message = (WatchedMessage)item;
+        App.Provider.GetService<Client>()!.SendData($"_specpl_:afkwarden:removeWatchedMessage:{message.Message}");
     }
 
     private void AddMessage(object? sender, RoutedEventArgs e)
@@ -113,16 +108,13 @@ public partial class WardenPageView : UserControl
         if (selectedItem.Content == null) return;
         var vm = App.Provider.GetService<WardenPageViewModel>()!;
 
-        bool isTts = selectedItem.Content.Equals("Text to speech");
-        string ttsString = "boner";
+        var isTts = selectedItem.Content.Equals("Text to speech");
         
         foreach (var msg in vm.WardenList)
         {
-            if (msg.Message.Equals(vm.DialogSubject.Message))
-            {
-                msg.TextToSpeech = isTts;
-                msg.TextToSpeechMessage = ttsString;
-            }
+            if (!msg.Message.Equals(vm.DialogSubject.Message)) continue;
+            msg.TextToSpeech = isTts;
+            msg.TextToSpeechMessage = msg.Message;
         }
 
         Console.WriteLine($"Closing dialog with parameter: {selectedItem.Content}");
@@ -130,11 +122,9 @@ public partial class WardenPageView : UserControl
     
     private void ComboBox_SelectionChanged(object? sender, SelectionChangedEventArgs e)
     {
-        if (sender is ComboBox comboBox)
-        {
-            var selectedItem = comboBox.SelectedItem;
-            Console.WriteLine(selectedItem);
-        }
+        if (sender is not ComboBox comboBox) return;
+        var selectedItem = comboBox.SelectedItem;
+        Console.WriteLine(selectedItem);
     }
 
     private void OnTap(object? sender, TappedEventArgs e)

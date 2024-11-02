@@ -68,18 +68,3 @@ public partial class App : Application
         base.OnFrameworkInitializationCompleted();
     }
 }
-
-public static class AppExtensions
-{
-    /// <summary>
-    /// Returns the TopLevel from the main window or view. 
-    /// </summary>
-    /// <param name="app">The application to get the TopLevel for.</param>
-    /// <returns>A TopLevel object.</returns>
-
-
-    public static void ImGay()
-    {
-        Console.WriteLine("asiodjaosid");
-    }
-}

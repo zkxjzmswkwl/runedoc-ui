@@ -3,6 +3,7 @@ using Avalonia.Markup.Xaml;
 using RuneDocMVVM.Models;
 using System;
 using System.Linq;
+using System.Reflection;
 using System.Text.Json;
 using Avalonia.Layout;
 using Avalonia.Media;
@@ -65,10 +66,7 @@ namespace RuneDocMVVM.Views
                             foreach (var childElement in childrenElement.EnumerateArray())
                             {
                                 var childControl = CreateControl(childElement);
-                                if (childControl != null)
-                                {
-                                    stackPanel.Children.Add(childControl);
-                                }
+                                stackPanel.Children.Add(childControl);
                             }
                         }
 
@@ -171,76 +169,76 @@ namespace RuneDocMVVM.Views
 
         private void SetControlProperty(Control control, string propertyName, JsonElement value)
         {
-            if (propertyName == "Command" && value.ValueKind == JsonValueKind.String)
+            if (string.Equals(propertyName, "Command", StringComparison.OrdinalIgnoreCase) &&
+                value.ValueKind == JsonValueKind.String)
             {
-                string commandName = value.GetString();
-                if (control is Button button)
-                {
-                    button.Command = new RelayCommand(() => ExecuteCommand(commandName));
-                }
+                if (control is not Button button) return;
+                var commandName = value.GetString();
+                button.Command = new RelayCommand(() => ExecuteCommand(commandName));
             }
             else
             {
-                var propInfo = control.GetType().GetProperty(propertyName);
+                var propInfo = control.GetType().GetProperty(propertyName,
+                    BindingFlags.Public | BindingFlags.Instance | BindingFlags.IgnoreCase);
 
-                if (propInfo != null && propInfo.CanWrite)
+                if (propInfo?.CanWrite != true)
                 {
-                    try
-                    {
-                        object convertedValue = null;
+                    Console.WriteLine(
+                        $"Property '{propertyName}' not found or not writable on control of type '{control.GetType().Name}'.");
+                    return;
+                }
 
-                        // Handle different property types
-                        if (propInfo.PropertyType == typeof(string))
-                        {
-                            convertedValue = value.GetString();
-                        }
-                        else if (propInfo.PropertyType == typeof(int))
-                        {
-                            if (value.TryGetInt32(out int intValue))
-                            {
-                                convertedValue = intValue;
-                            }
-                        }
-                        else if (propInfo.PropertyType == typeof(double))
-                        {
-                            if (value.TryGetDouble(out double doubleValue))
-                            {
-                                convertedValue = doubleValue;
-                            }
-                        }
-                        else if (propInfo.PropertyType == typeof(bool))
-                        {
-                            if (value.ValueKind == JsonValueKind.True || value.ValueKind == JsonValueKind.False)
-                            {
-                                convertedValue = value.GetBoolean();
-                            }
-                        }
-                        else if (propInfo.PropertyType.IsEnum)
-                        {
-                            string enumValue = value.GetString();
-                            convertedValue = Enum.Parse(propInfo.PropertyType, enumValue);
-                        }
-                        else if (propInfo.PropertyType == typeof(IBrush))
-                        {
-                            string colorStr = value.GetString();
-                            convertedValue = new SolidColorBrush(Color.Parse(colorStr));
-                        }
-                        else
-                        {
-                            convertedValue = Convert.ChangeType(value.ToString(), propInfo.PropertyType);
-                        }
+                try
+                {
+                    var convertedValue = ConvertJsonElementToType(value, propInfo.PropertyType);
+                    propInfo.SetValue(control, convertedValue);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(
+                        $"Error setting property '{propertyName}' on {control.GetType().Name}: {ex.Message}");
+                }
+            }
+        }
 
-                        propInfo.SetValue(control, convertedValue);
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine($"Error setting property '{propertyName}' on {control.GetType().Name}: {ex.Message}");
-                    }
+        private object ConvertJsonElementToType(JsonElement value, Type targetType)
+        {
+            try
+            {
+                if (targetType == typeof(string))
+                {
+                    return value.GetString();
+                }
+                else if (targetType == typeof(int) && value.TryGetInt32(out var intValue))
+                {
+                    return intValue;
+                }
+                else if (targetType == typeof(double) && value.TryGetDouble(out var doubleValue))
+                {
+                    return doubleValue;
+                }
+                else if (targetType == typeof(bool))
+                {
+                    return value.GetBoolean();
+                }
+                else if (targetType.IsEnum)
+                {
+                    var enumValue = value.GetString();
+                    return Enum.Parse(targetType, enumValue, ignoreCase: true);
+                }
+                else if (typeof(IBrush).IsAssignableFrom(targetType))
+                {
+                    var colorStr = value.GetString();
+                    return new SolidColorBrush(Color.Parse(colorStr));
                 }
                 else
                 {
-                    Console.WriteLine($"Property '{propertyName}' not found on control of type '{control.GetType().Name}'.");
+                    return JsonSerializer.Deserialize(value.GetRawText(), targetType);
                 }
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException($"Unable to convert JSON value to type {targetType.Name}.", ex);
             }
         }
 

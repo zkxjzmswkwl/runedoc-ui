@@ -195,12 +195,8 @@ public partial class MainWindowViewModel : ViewModelBase
                  {
                      var messages = Regex.Split(spl[3], "\\^")[0..^1];
                      List<WatchedMessage> messageList = [];
-                     
-                     foreach (var message in messages)
-                     {
-                         messageList.Add(WatchedMessage.Create(message));
-                     }
-                     
+                     messageList.AddRange(messages.Select(WatchedMessage.Create));
+
                      var vm = App.Provider.GetService<WardenPageViewModel>()!;
                      vm.AddMessagesThreadSafe(messageList);
                  }
